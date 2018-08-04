@@ -1,0 +1,82 @@
+services:
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    Magenta\Bundle\SWarrantyApiBundle\:
+        resource: '../../*'
+#        exclude: '../src/{Entity,Migrations,Tests,Kernel.php}'
+    # controllers are imported separately to make sure services can be injected
+    # as action arguments even if you don't extend any base controller class
+    Magenta\Bundle\SWarrantyApiBundle\Controller\:
+        resource: '../../Controller'
+        tags: ['controller.service_arguments']
+
+    magenta_swarranty_api.customer.organisation_member_subscriber:
+        class: Magenta\Bundle\SWarrantyApiBundle\EventSubscriber\Organisation\OrganisationMemberSubscriber
+        arguments:
+            - '@Magenta\Bundle\SWarrantyModelBundle\Service\User\UserService'
+            - '@doctrine'
+        tags:
+            - { name: kernel.event_subscriber }
+
+    magenta_swarranty_api.customer.customer_subscriber:
+        class: Magenta\Bundle\SWarrantyApiBundle\EventSubscriber\Customer\CustomerSubscriber
+        arguments:
+            - '@doctrine'
+        tags:
+            - { name: kernel.event_subscriber }
+
+    magenta_swarranty_api.customer.registration_subscriber:
+        class: Magenta\Bundle\SWarrantyApiBundle\EventSubscriber\Customer\RegistrationSubscriber
+        arguments:
+            - '@doctrine.orm.default_entity_manager'
+            - '@doctrine'
+            - '@swiftmailer.mailer'
+        tags:
+            - { name: kernel.event_subscriber }
+
+    magenta_swarranty_api.customer.newsletter_subscription_subscriber:
+        class: Magenta\Bundle\SWarrantyApiBundle\EventSubscriber\Customer\NewsletterSubscriptionSubscriber
+        arguments:
+            - '@doctrine'
+        tags:
+            - { name: kernel.event_subscriber }
+
+    magenta_swarranty_api.customer.registration_email_subscriber:
+        class: Magenta\Bundle\SWarrantyApiBundle\EventSubscriber\Customer\RegistrationEmailSubscriber
+        arguments:
+            - '@doctrine'
+            - '@swiftmailer.mailer'
+        tags:
+            - { name: kernel.event_subscriber }
+
+
+    swarranty.id_search_filter:
+        parent: 'api_platform.doctrine.orm.search_filter'
+        arguments: [ { id: 'exact' } ]
+        tags: [ 'api_platform.filter' ]
+
+    swarranty.organisation_search_filter:
+        parent: 'api_platform.doctrine.orm.search_filter'
+        arguments: [ { organization: 'exact' } ]
+        tags: [ 'api_platform.filter' ]
+
+    swarranty.code_search_filter:
+        parent: 'api_platform.doctrine.orm.search_filter'
+        arguments: [ { code: 'exact' } ]
+        tags: [ 'api_platform.filter' ]
+
+    swarranty.brand_search_filter:
+        parent: 'api_platform.doctrine.orm.search_filter'
+        arguments: [ { brand: 'exact' } ]
+        tags: [ 'api_platform.filter' ]
+
+    swarranty.category_search_filter:
+        parent: 'api_platform.doctrine.orm.search_filter'
+        arguments: [ { category: 'exact' } ]
+        tags: [ 'api_platform.filter' ]
+
+    swarranty.sub_category_search_filter:
+        parent: 'api_platform.doctrine.orm.search_filter'
+        arguments: [ { subCategory: 'exact' } ]
+        tags: [ 'api_platform.filter' ]
+

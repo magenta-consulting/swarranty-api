@@ -1,0 +1,23 @@
+api_platform:
+    resource: .
+    type: api_platform
+    prefix: '%API_PREFIX%'
+
+api_organisation:
+    resource: "@MagentaSWarrantyApiBundle/Resources/config/routing/organisation.yaml"
+    prefix: '%API_PREFIX%'
+
+api_customer:
+    resource: "@MagentaSWarrantyApiBundle/Resources/config/routing/customer.yaml"
+    prefix: '%API_PREFIX%'
+
+api_product:
+    resource: "@MagentaSWarrantyApiBundle/Resources/config/routing/product.yaml"
+    prefix: '%API_PREFIX%'
+
+api_login_check:
+    path: '%API_PREFIX%/login_check'
+
+endroid_qr_code:
+    resource: "@EndroidQrCodeBundle/Resources/config/routes.yaml"
+    prefix: '%API_PREFIX%/qr-code'

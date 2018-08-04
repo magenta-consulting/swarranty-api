@@ -1,0 +1,8 @@
+bean_dev_tool:
+    library_source: E:\wamp31\www\libraries\swarranty\
+    library_workspace: E:\wamp31\www\swarranty\api\libraries\
+    components: ~
+    bundles:
+        - MagentaSWarrantyModelBundle
+        - MagentaSWarrantyApiBundle
+        - MagentaSWarrantyJWTBundle

@@ -1,0 +1,440 @@
+# api/config/api_platform/resources.yaml
+resources:
+#    Magenta\Bundle\SWarrantyModelBundle\Entity\User\User:
+##        shortName: 'User'                   # optional
+#        description: 'App Users' # optional
+##        iri: 'http://schema.org/User'       # optional
+#        attributes:                          # optional
+#            pagination_items_per_page: 25    # optional
+#            normalization_context:
+#                groups:
+#                    - read_user
+#            denormalization_context:
+#                groups:
+#                    - write_user
+
+    Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Warranty:
+#        shortName: 'User'                   # optional
+        description: 'Warranty' # optional
+#        iri: 'http://schema.org/User'       # optional
+        attributes:                          # optional
+            pagination_items_per_page: 25    # optional
+            normalization_context:
+                groups:
+                    - read_medium
+                    - read_warranty
+                    - read_product
+            denormalization_context:
+                groups:
+                    - write_warranty
+                    - write_customer
+                    - write_product
+#                    - write_brand
+#                    - write_thing
+        itemOperations:
+            get: ~
+            put: ~
+        collectionOperations:
+            get: ~
+            post: ~
+
+    Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\WarrantyCase:
+#        shortName: 'User'                   # optional
+        description: 'WarrantyCase' # optional
+#        iri: 'http://schema.org/User'       # optional
+        attributes:                          # optional
+            pagination_items_per_page: 25    # optional
+            normalization_context:
+                groups:
+                    - read_case
+                    - read_warranty
+                    - read_product
+                    - read_brand
+            denormalization_context:
+                groups:
+                    - write_case
+                    - write_warranty
+                    - write_customer
+#                    - write_product
+#                    - write_brand
+#                    - write_thing
+        itemOperations:
+            get: ~
+            put: ~
+        collectionOperations:
+            get: ~
+
+    Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Registration:
+#        shortName: 'User'                   # optional
+        description: 'Reg' # optional
+#        iri: 'http://schema.org/User'       # optional
+        attributes:                          # optional
+            pagination_items_per_page: 25    # optional
+            normalization_context:
+                groups:
+                    - read_medium
+                    - read_customer
+                    - read_registration
+                    - read_registration_warranty
+                    - read_product
+                    - read_brand
+                    - read_thing
+            denormalization_context:
+                groups:
+                    - write_registration
+                    - write_warranty
+                    - write_customer
+#                    - write_product
+#                    - write_brand
+#                    - write_thing
+        itemOperations:
+            put: ~
+            get: ~
+        collectionOperations:
+            get: ~
+            post: ~
+
+    Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\NewsletterSubscription:
+#        shortName: 'User'                   # optional
+        description: 'Newsletter Subscription' # optional
+#        iri: 'http://schema.org/User'       # optional
+        attributes:                          # optional
+            pagination_items_per_page: 25    # optional
+            normalization_context:
+                groups:
+                    - read_nls
+                    - read_registration
+                    - read_warranty
+                    - read_product
+                    - read_brand
+                    - read_thing
+            denormalization_context:
+                groups:
+                    - write_nls
+                    - write_registration
+                    - write_warranty
+                    - write_customer
+#                    - write_product
+#                    - write_brand
+                    - write_thing
+        itemOperations:
+            get: ~
+        collectionOperations:
+            get: ~
+            post: ~
+
+    Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Customer:
+#        shortName: 'User'                   # optional
+        description: 'Customer' # optional
+#        iri: 'http://schema.org/User'       # optional
+        attributes:                          # optional
+            pagination_items_per_page: 25    # optional
+            normalization_context:
+                groups:
+                    - read_customer
+                    - read_thing
+            denormalization_context:
+                groups:
+                    - write_customer
+                    - write_thing
+        itemOperations:
+            get: ~
+        collectionOperations:
+            get: ~
+            post: ~
+#            post_customers_update:
+#                route_name: 'customer_update'
+
+    Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Dealer:
+#        shortName: 'User'                   # optional
+        description: 'Dealer' # optional
+#        iri: 'http://schema.org/User'       # optional
+        attributes:                          # optional
+            pagination_items_per_page: 25    # optional
+            normalization_context:
+                groups:
+                    - read_dealer
+                    - read_brand
+                    - read_thing
+            denormalization_context:
+                groups:
+                    - write_dealer
+                    - write_brand
+                    - write_thing
+        itemOperations:
+            get: ~
+        collectionOperations:
+            get: ~
+
+    Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Product:
+#        shortName: 'User'                   # optional
+        description: 'Product' # optional
+#        iri: 'http://schema.org/User'       # optional
+        attributes:                          # optional
+            pagination_items_per_page: 25    # optional
+            normalization_context:
+                groups:
+                    - read_product
+                    - read_category
+                    - read_brand
+                    - read_thing
+            denormalization_context:
+                groups:
+                    - write_product
+                    - write_category
+                    - write_brand
+                    - write_thing
+        itemOperations:
+            get: ~
+        collectionOperations:
+            get:
+                filters:
+                    - 'swarranty.brand_search_filter'
+                    - 'swarranty.category_search_filter'
+                    - 'swarranty.sub_category_search_filter'
+
+    Magenta\Bundle\SWarrantyModelBundle\Entity\Product\BrandCategory:
+#        shortName: 'User'                   # optional
+        description: 'BrandCategory' # optional
+#        iri: 'http://schema.org/User'       # optional
+        attributes:                          # optional
+            pagination_items_per_page: 25    # optional
+            normalization_context:
+                groups:
+                    - read_brand_category
+                    - read_brand
+                    - read_thing
+            denormalization_context:
+                groups:
+                    - write_brand_category
+                    - write_brand
+                    - write_thing
+        itemOperations:
+            get: ~
+    #        special:
+    #            route_name: 'book_special'
+            get_category_products:
+                route_name: 'category_products'
+#            get_contactable_members:
+#                route_name: 'organisation_contactable_members'
+#                filters: ['contactable_members.name_search_filter']
+
+        collectionOperations:
+            get: ~
+
+    Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Brand:
+#        shortName: 'User'                   # optional
+        description: 'Brand' # optional
+#        iri: 'http://schema.org/User'       # optional
+        attributes:                          # optional
+            pagination_items_per_page: 25    # optional
+            normalization_context:
+                groups:
+                    - read_brand
+                    - read_thing
+            denormalization_context:
+                groups:
+                    - write_brand
+                    - write_thing
+        itemOperations:
+            get: ~
+    #        special:
+    #            route_name: 'book_special'
+            get_brand_categories:
+                route_name: 'brand_categories'
+#            get_contactable_members:
+#                route_name: 'organisation_contactable_members'
+#                filters: ['contactable_members.name_search_filter']
+
+        collectionOperations:
+            get: ~
+
+
+    Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media:
+        description: 'Media' # optional
+#        iri: 'http://schema.org/User'       # optional
+        attributes:                          # optional
+            pagination_items_per_page: 25    # optional
+            normalization_context:
+                groups:
+                    - read_medium
+                    - read_thing
+                    - read_organisation
+            denormalization_context:
+                groups:
+                    - write_medium
+        itemOperations:
+            get: ~
+    #        special:
+    #            route_name: 'book_special'
+#            get_contactable_members:
+#                route_name: 'organisation_contactable_members'
+#                filters: ['contactable_members.name_search_filter']
+        collectionOperations:
+            get: ~
+#            post: ~
+
+
+    Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation:
+#        shortName: 'User'                   # optional
+        description: 'Organisation' # optional
+#        iri: 'http://schema.org/User'       # optional
+        attributes:                          # optional
+            pagination_items_per_page: 25    # optional
+            normalization_context:
+                groups:
+                    - read_medium
+                    - read_brand
+                    - read_thing
+                    - read_organisation
+            denormalization_context:
+                groups:
+                    - write_organisation
+        itemOperations:
+            get: ~
+    #        special:
+    #            route_name: 'book_special'
+            get_brands:
+                route_name: 'organisation_brands'
+            get_dealers:
+                route_name: 'organisation_dealers'
+            get_customers:
+                route_name: 'organisation_customers'
+#            get_contactable_members:
+#                route_name: 'organisation_contactable_members'
+#                filters: ['contactable_members.name_search_filter']
+        collectionOperations:
+            get:
+                filters: ['swarranty.code_search_filter']
+#            post: ~
+
+    Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\OrganisationMember:
+#        shortName: 'User'                   # optional
+        description: 'OrganisationMember' # optional
+#        iri: 'http://schema.org/User'       # optional
+        attributes:                          # optional
+            pagination_items_per_page: 25    # optional
+            normalization_context:
+                groups:
+                    - read_person_scalar
+                    - read_case
+#                    - read_case_appointment # has to be either case_note/case_service_sheet or case_appointment and not both
+                    - read_appointment_scalar
+                    - read_case_note
+                    - read_case_service_sheet
+                    - read_service_sheet_scalar
+                    - read_service_zone
+                    - read_product
+                    - read_warranty
+                    - read_customer
+                    - read_member
+                    - read_person
+                    - read_medium
+                    - read_thing
+            denormalization_context:
+                groups:
+                    - write_member
+        itemOperations:
+            get: ~
+            get_member_name:
+                route_name: 'organisation_member_name'
+        collectionOperations:
+            get:
+                filters: ['swarranty.organisation_search_filter', 'swarranty.id_search_filter']
+
+    Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\ServiceSheet:
+#        shortName: 'User'                   # optional
+        description: 'ServiceSheet' # optional
+#        iri: 'http://schema.org/User'       # optional
+        attributes:                          # optional
+            pagination_items_per_page: 25    # optional
+            normalization_context:
+                groups:
+                    - read_service_sheet
+                    - read_medium
+                    - read_thing
+            denormalization_context:
+                groups:
+                    - write_service_sheet
+        itemOperations:
+            get: ~
+        collectionOperations:
+            get: ~
+
+    Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\CaseAppointment:
+#        shortName: 'User'                   # optional
+        description: 'CaseAppointment' # optional
+#        iri: 'http://schema.org/User'       # optional
+        attributes:                          # optional
+            pagination_items_per_page: 25    # optional
+            normalization_context:
+                groups:
+                    - read_appointment_scalar
+                    - read_appointment
+                    - read_medium
+                    - read_thing
+            denormalization_context:
+                groups:
+                    - write_appointment
+        itemOperations:
+            get: ~
+            put: ~
+        collectionOperations:
+            get: ~
+
+    Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\ServiceNote:
+#        shortName: 'User'                   # optional
+        description: 'ServiceNote' # optional
+#        iri: 'http://schema.org/User'       # optional
+        attributes:                          # optional
+            pagination_items_per_page: 25    # optional
+            normalization_context:
+                groups:
+                    - read_service_note
+                    - read_medium
+                    - read_thing
+            denormalization_context:
+                groups:
+                    - write_service_note
+        itemOperations:
+            get: ~
+            put: ~
+            delete: ~
+        collectionOperations:
+            get: ~
+            post: ~
+
+    Magenta\Bundle\SWarrantyModelBundle\Entity\Person\Person:
+#        shortName: 'User'                   # optional
+        description: 'Person' # optional
+#        iri: 'http://schema.org/User'       # optional
+        attributes:                          # optional
+            pagination_items_per_page: 25    # optional
+            normalization_context:
+                groups:
+                    - read_person
+                    - read_medium
+                    - read_thing
+            denormalization_context:
+                groups:
+                    - write_person
+        itemOperations:
+            get: ~
+#            get_contactable_members:
+#                route_name: 'organisation_contactable_members'
+#                filters: ['contactable_members.name_search_filter']
+        collectionOperations:
+            get: ~
+
+###################### DTO #######################################
+    Magenta\Bundle\SWarrantyApiBundle\Dto\Customer\RegistrationEmail:
+#        shortName: 'User'                   # optional
+        description: 'RegistrationConfirmationEmail' # optional
+#        iri: 'http://schema.org/User'       # optional
+        itemOperations: []
+        collectionOperations:
+            post:
+                method: 'POST'
+                path: '/registrations/email'
+
+#            post: ~
