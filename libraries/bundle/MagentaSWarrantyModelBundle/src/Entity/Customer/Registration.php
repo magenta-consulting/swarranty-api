@@ -68,7 +68,7 @@ class Registration implements ThingChildInterface {
 		
 		$emailVerUrl = $domain . '/front/verify-email?token=' . $this->customer->initiateEmailVerificationToken();
 		$emailVerUrl .= '&amp;reg=' . $this->id;
-		$bc          = str_replace('{verification_url}', $emailVerUrl, $bc);
+		$bc          = str_replace('{verification_url}', sprintf('<a href="%1$s">%1$s</a>', $emailVerUrl), $bc);
 		
 		return [ 'recipient' => $this->customer->getEmail(), 'subject' => $mt->getSubject(), 'body' => $bc ];
 	}
@@ -111,20 +111,20 @@ class Registration implements ThingChildInterface {
 	protected $customer;
 	
 	//	Customer Info
-
+	
 	/**
 	 * @var string|null
 	 * @ORM\Column(type="string",nullable=true)
 	 */
 	protected $name;
-
-    /**
-     * @var string|null
-     * @ORM\Column(type="string",nullable=true)
-     */
-    protected $addressUnitNumber;
-
-    /**
+	
+	/**
+	 * @var string|null
+	 * @ORM\Column(type="string",nullable=true)
+	 */
+	protected $addressUnitNumber;
+	
+	/**
 	 * @var \DateTime|null
 	 * @ORM\Column(type="datetime", nullable=true)
 	 */
@@ -175,97 +175,110 @@ class Registration implements ThingChildInterface {
 	
 	/**
 	 * @var boolean
-	 * @ORM\Column(type="boolean", options={"default":false})
+	 * @ORM\Column(type="boolean", nullable=true, options={"default":false})
 	 */
 	protected $submitted = false;
 	
 	/**
 	 * @var string|null
-	 * @ORM\Column(type="string")
+	 * @ORM\Column(type="string", nullable=true)
 	 */
 	protected $code;
 
 //	DIRTY FIELDS
-    /**
-     * @var string|null
-     * @ORM\Column(type="string", nullable=true)
-     */
-    protected $ageGroup;
-    /**
-     * @var boolean|null
-     * @ORM\Column(type="boolean", options={"default":false})
-     */
-    protected $hearFromOnlineSearch;
-    /**
-     * @var boolean|null
-     * @ORM\Column(type="boolean", options={"default":false})
-     */
-    protected $hearFromOnlineAd;
-    /**
-     * @var boolean|null
-     * @ORM\Column(type="boolean", options={"default":false})
-     */
-    protected $hearFromFriendFamily;
-    /**
-     * @var boolean|null
-     * @ORM\Column(type="boolean", options={"default":false})
-     */
-    protected $reasonInteriorDesigner ;
-    /**
-     * @var boolean|null
-     * @ORM\Column(type="boolean", options={"default":false})
-     */
-    protected $hearWalkShop;
-    /**
-     * @var string|null
-     * @ORM\Column(type="string")
-     */
-    protected $hearOthers;
-    /**
-     * @var boolean|null
-     * @ORM\Column(type="boolean", options={"default":false})
-     */
-    protected $reasonPromotions;
-    /**
-     * @var boolean|null
-     * @ORM\Column(type="boolean", options={"default":false})
-     */
-    protected $reasonTheBrand;
-    /**
-     * @var boolean|null
-     * @ORM\Column(type="boolean", options={"default":false})
-     */
-    protected $reasonTechnology;
-    /**
-     * @var boolean|null
-     * @ORM\Column(type="boolean", options={"default":false})
-     */
-    protected $reasonJapanese;
-    /**
-     * @var boolean|null
-     * @ORM\Column(type="boolean", options={"default":false})
-     */
-    protected $reasonTheDesign;
-    /**
-     * @var boolean|null
-     * @ORM\Column(type="boolean", options={"default":false})
-     */
-    protected $reasonAffordable;
-    /**
-     * @var boolean|null
-     * @ORM\Column(type="boolean", options={"default":false})
-     */
-    protected $reasonDesignerSuggested;
-    /**
-     * @var boolean|null
-     * @ORM\Column(type="boolean", options={"default":false})
-     */
-    protected $reasonFriendFamilySuggested;
-    /**
-     * @var string|null
-     * @ORM\Column(type="string", nullable=true)
-     */
-    protected $reasonOthers;
+	/**
+	 * @var string|null
+	 * @ORM\Column(type="string", nullable=true)
+	 */
+	protected $ageGroup;
+	/**
+	 * @var boolean|null
+	 * @ORM\Column(type="boolean", nullable=true, options={"default":false})
+	 */
+	protected $hearFromOnlineSearch;
+	/**
+	 * @var boolean|null
+	 * @ORM\Column(type="boolean", nullable=true, options={"default":false})
+	 */
+	protected $hearFromOnlineAd;
+	/**
+	 * @var boolean|null
+	 * @ORM\Column(type="boolean", nullable=true, options={"default":false})
+	 */
+	protected $hearFromFriendFamily;
+	
+	/**
+	 * @var boolean|null
+	 * @ORM\Column(type="boolean", nullable=true, options={"default":false})
+	 */
+	protected $hearFromInteriorDesigner;
+	
+	/**
+	 * @var boolean|null
+	 * @ORM\Column(type="boolean", nullable=true, options={"default":false})
+	 */
+	protected $hearFromShopWalkIn;
+	
+	/**
+	 * @var boolean|null
+	 * @ORM\Column(type="boolean", nullable=true, options={"default":false})
+	 */
+	protected $reasonInteriorDesigner;
+	/**
+	 * @var boolean|null
+	 * @ORM\Column(type="boolean", nullable=true, options={"default":false})
+	 */
+	protected $hearWalkShop;
+	/**
+	 * @var string|null
+	 * @ORM\Column(type="string",nullable=true)
+	 */
+	protected $hearOthers;
+	/**
+	 * @var boolean|null
+	 * @ORM\Column(type="boolean",nullable=true,  options={"default":false})
+	 */
+	protected $reasonPromotions;
+	/**
+	 * @var boolean|null
+	 * @ORM\Column(type="boolean", nullable=true, options={"default":false})
+	 */
+	protected $reasonTheBrand;
+	/**
+	 * @var boolean|null
+	 * @ORM\Column(type="boolean", nullable=true, options={"default":false})
+	 */
+	protected $reasonTechnology;
+	/**
+	 * @var boolean|null
+	 * @ORM\Column(type="boolean", nullable=true, options={"default":false})
+	 */
+	protected $reasonJapanese;
+	/**
+	 * @var boolean|null
+	 * @ORM\Column(type="boolean", nullable=true, options={"default":false})
+	 */
+	protected $reasonTheDesign;
+	/**
+	 * @var boolean|null
+	 * @ORM\Column(type="boolean", nullable=true, options={"default":false})
+	 */
+	protected $reasonAffordable;
+	/**
+	 * @var boolean|null
+	 * @ORM\Column(type="boolean", nullable=true, options={"default":false})
+	 */
+	protected $reasonDesignerSuggested;
+	/**
+	 * @var boolean|null
+	 * @ORM\Column(type="boolean", nullable=true, options={"default":false})
+	 */
+	protected $reasonFriendFamilySuggested;
+	/**
+	 * @var string|null
+	 * @ORM\Column(type="string", nullable=true)
+	 */
+	protected $reasonOthers;
 
 // END DIRTY FIELDS
 	
@@ -482,7 +495,7 @@ class Registration implements ThingChildInterface {
 	/**
 	 * @return bool|null
 	 */
-	public function getHearFromOnlineSearch(): ?bool {
+	public function isHearFromOnlineSearch(): ?bool {
 		return $this->hearFromOnlineSearch;
 	}
 	
@@ -496,7 +509,7 @@ class Registration implements ThingChildInterface {
 	/**
 	 * @return bool|null
 	 */
-	public function getHearFromOnlineAd(): ?bool {
+	public function isHearFromOnlineAd(): ?bool {
 		return $this->hearFromOnlineAd;
 	}
 	
@@ -510,7 +523,7 @@ class Registration implements ThingChildInterface {
 	/**
 	 * @return bool|null
 	 */
-	public function getHearFromFriendFamily(): ?bool {
+	public function isHearFromFriendFamily(): ?bool {
 		return $this->hearFromFriendFamily;
 	}
 	
@@ -524,7 +537,7 @@ class Registration implements ThingChildInterface {
 	/**
 	 * @return bool|null
 	 */
-	public function getReasonInteriorDesigner(): ?bool {
+	public function isReasonInteriorDesigner(): ?bool {
 		return $this->reasonInteriorDesigner;
 	}
 	
@@ -566,7 +579,7 @@ class Registration implements ThingChildInterface {
 	/**
 	 * @return bool|null
 	 */
-	public function getReasonPromotions(): ?bool {
+	public function isReasonPromotions(): ?bool {
 		return $this->reasonPromotions;
 	}
 	
@@ -580,7 +593,7 @@ class Registration implements ThingChildInterface {
 	/**
 	 * @return bool|null
 	 */
-	public function getReasonTheBrand(): ?bool {
+	public function isReasonTheBrand(): ?bool {
 		return $this->reasonTheBrand;
 	}
 	
@@ -594,7 +607,7 @@ class Registration implements ThingChildInterface {
 	/**
 	 * @return bool|null
 	 */
-	public function getReasonTechnology(): ?bool {
+	public function isReasonTechnology(): ?bool {
 		return $this->reasonTechnology;
 	}
 	
@@ -608,7 +621,7 @@ class Registration implements ThingChildInterface {
 	/**
 	 * @return bool|null
 	 */
-	public function getReasonJapanese(): ?bool {
+	public function isReasonJapanese(): ?bool {
 		return $this->reasonJapanese;
 	}
 	
@@ -622,7 +635,7 @@ class Registration implements ThingChildInterface {
 	/**
 	 * @return bool|null
 	 */
-	public function getReasonTheDesign(): ?bool {
+	public function isReasonTheDesign(): ?bool {
 		return $this->reasonTheDesign;
 	}
 	
@@ -636,7 +649,7 @@ class Registration implements ThingChildInterface {
 	/**
 	 * @return bool|null
 	 */
-	public function getReasonAffordable(): ?bool {
+	public function isReasonAffordable(): ?bool {
 		return $this->reasonAffordable;
 	}
 	
@@ -650,7 +663,7 @@ class Registration implements ThingChildInterface {
 	/**
 	 * @return bool|null
 	 */
-	public function getReasonDesignerSuggested(): ?bool {
+	public function isReasonDesignerSuggested(): ?bool {
 		return $this->reasonDesignerSuggested;
 	}
 	
@@ -664,7 +677,7 @@ class Registration implements ThingChildInterface {
 	/**
 	 * @return bool|null
 	 */
-	public function getReasonFriendFamilySuggested(): ?bool {
+	public function isReasonFriendFamilySuggested(): ?bool {
 		return $this->reasonFriendFamilySuggested;
 	}
 	
@@ -687,5 +700,33 @@ class Registration implements ThingChildInterface {
 	 */
 	public function setReasonOthers(?string $reasonOthers): void {
 		$this->reasonOthers = $reasonOthers;
+	}
+	
+	/**
+	 * @return bool|null
+	 */
+	public function isHearFromInteriorDesigner(): ?bool {
+		return $this->hearFromInteriorDesigner;
+	}
+	
+	/**
+	 * @param bool|null $hearFromInteriorDesigner
+	 */
+	public function setHearFromInteriorDesigner(?bool $hearFromInteriorDesigner): void {
+		$this->hearFromInteriorDesigner = $hearFromInteriorDesigner;
+	}
+	
+	/**
+	 * @return bool|null
+	 */
+	public function isHearFromShopWalkIn(): ?bool {
+		return $this->hearFromShopWalkIn;
+	}
+	
+	/**
+	 * @param bool|null $hearFromShopWalkIn
+	 */
+	public function setHearFromShopWalkIn(?bool $hearFromShopWalkIn): void {
+		$this->hearFromShopWalkIn = $hearFromShopWalkIn;
 	}
 }
