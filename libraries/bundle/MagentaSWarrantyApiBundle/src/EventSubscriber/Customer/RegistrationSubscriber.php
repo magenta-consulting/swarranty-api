@@ -72,7 +72,7 @@ class RegistrationSubscriber implements EventSubscriberInterface {
             throw new InvalidArgumentException('Email already sent');
         }
 
-		if( ! $reg->isVerified() && ! empty($c) && ! empty($email = $c->getEmail()) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
+		if( !$reg->isEmailSent() && ! $reg->isVerified() && ! empty($c) && ! empty($email = $c->getEmail()) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
 			$msg     = $reg->prepareEmailVerificationMessage();
 			$email   = $msg['recipient'];
 			$customer = $reg->getCustomer();
