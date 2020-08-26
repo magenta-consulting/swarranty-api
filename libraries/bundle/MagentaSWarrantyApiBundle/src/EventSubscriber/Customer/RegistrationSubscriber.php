@@ -94,9 +94,6 @@ class RegistrationSubscriber implements EventSubscriberInterface {
 				*/
 			;
 			$this->mailer->send($message);
-			$reg->setEmailSent(true);
-            $this->manager->persist($reg);
-            $this->manager->flush($reg);
         }
 	}
 }

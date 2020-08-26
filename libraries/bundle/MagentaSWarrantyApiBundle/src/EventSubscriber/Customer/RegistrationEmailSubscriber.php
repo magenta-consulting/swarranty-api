@@ -35,12 +35,17 @@ class RegistrationEmailSubscriber implements EventSubscriberInterface {
 	public function onKernelView(GetResponseForControllerResultEvent $event) {
 		$regEmail = $event->getControllerResult();
 		$method   = $event->getRequest()->getMethod();
-		
+        $manager = $this->registry->getEntityManager();
 		$request = $event->getRequest();
 		
 		if( ! $regEmail instanceof RegistrationEmail || Request::METHOD_POST !== $method) {
 			return;
 		}
+		/** @var Registration $reg */
+        $reg = $this->registry->getRepository(Registration::class)->find($regEmail->registrationId);
+        if (empty($reg) || $reg->isEmailSent()) {
+            return;
+        }
 		
 		$regRepo = $this->registry->getRepository(Registration::class);
 		/** @var Registration $reg */
@@ -76,6 +81,9 @@ class RegistrationEmailSubscriber implements EventSubscriberInterface {
 				;
 				
 				$this->mailer->send($message);
+                $reg->setEmailSent(true);
+                $manager->persist($reg);
+                $manager->flush($reg);
 			}
 		}
 		if( ! empty($email)) {
