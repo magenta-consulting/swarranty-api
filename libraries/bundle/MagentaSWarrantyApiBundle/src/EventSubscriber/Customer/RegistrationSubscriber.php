@@ -4,6 +4,7 @@ namespace Magenta\Bundle\SWarrantyApiBundle\EventSubscriber\Customer;
 
 use ApiPlatform\Core\EventListener\EventPriorities;
 use Doctrine\ORM\EntityManagerInterface;
+use http\Exception\InvalidArgumentException;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Customer;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Registration;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Messaging\MessageTemplate;
@@ -29,8 +30,9 @@ class RegistrationSubscriber implements EventSubscriberInterface {
 	
 	public static function getSubscribedEvents() {
 		return [
-			KernelEvents::REQUEST => [ 'onKernelRequest', EventPriorities::PRE_READ ],
-			KernelEvents::VIEW    => [ 'onKernelView', EventPriorities::POST_WRITE ],
+            KernelEvents::VIEW => [ 'onKernelView', EventPriorities::POST_VALIDATE ],
+            KernelEvents::REQUEST => [ 'onKernelRequest', EventPriorities::PRE_READ ],
+//			KernelEvents::VIEW    => [ 'onKernelView', EventPriorities::POST_WRITE ],
 		
 		];
 	}
@@ -47,7 +49,7 @@ class RegistrationSubscriber implements EventSubscriberInterface {
 		$class      = $request->attributes->get('_api_resource_class');
 		$controller = $request->attributes->get('_controller');
 		if($request->isMethod('get') && $class === Registration::class && $controller === 'api_platform.action.get_item') {
-		
+
 		}
 	}
 	
@@ -55,7 +57,7 @@ class RegistrationSubscriber implements EventSubscriberInterface {
 		$reg    = $event->getControllerResult();
 		$method = $event->getRequest()->getMethod();
 		
-		if( ! $reg instanceof Registration || Request::METHOD_POST !== $method) {
+		if( ! $reg instanceof Registration ) { // || Request::METHOD_POST !== $method
 			return;
 		}
 		
@@ -65,7 +67,11 @@ class RegistrationSubscriber implements EventSubscriberInterface {
 			$this->manager->persist($reg);
 			$this->manager->flush($reg);
 		}
-		
+
+        if ($reg->isEmailSent()) {
+            throw new InvalidArgumentException('Email already sent');
+        }
+
 		if( ! $reg->isVerified() && ! empty($c) && ! empty($email = $c->getEmail()) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
 			$msg     = $reg->prepareEmailVerificationMessage();
 			$email   = $msg['recipient'];
@@ -87,8 +93,10 @@ class RegistrationSubscriber implements EventSubscriberInterface {
 				)
 				*/
 			;
-			
 			$this->mailer->send($message);
-		}
+			$reg->setEmailSent(true);
+            $this->manager->persist($reg);
+            $this->manager->flush($reg);
+        }
 	}
 }
