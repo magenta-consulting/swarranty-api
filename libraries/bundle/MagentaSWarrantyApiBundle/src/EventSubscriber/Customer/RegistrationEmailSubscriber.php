@@ -83,15 +83,16 @@ class RegistrationEmailSubscriber implements EventSubscriberInterface {
 				$this->mailer->send($message);
 			}
 		}
+
+        $reg->setEmailSent(true);
+        $manager->persist($reg);
+        $manager->flush($reg);
+
 		if( ! empty($email)) {
 			$event->setResponse(new JsonResponse([ 'message' => 'Email has been successfully sent to ' . $email ], 201));
 		} else {
 			$event->setResponse(new JsonResponse([ 'message' => 'No emails were sent ' ], 200));
 		}
-
-        $reg->setEmailSent(true);
-        $manager->persist($reg);
-        $manager->flush($reg);
 	}
 	
 }
