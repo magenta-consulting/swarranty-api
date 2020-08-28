@@ -81,9 +81,6 @@ class RegistrationEmailSubscriber implements EventSubscriberInterface {
 				;
 				
 				$this->mailer->send($message);
-                $reg->setEmailSent(true);
-                $manager->persist($reg);
-                $manager->flush($reg);
 			}
 		}
 		if( ! empty($email)) {
@@ -91,6 +88,10 @@ class RegistrationEmailSubscriber implements EventSubscriberInterface {
 		} else {
 			$event->setResponse(new JsonResponse([ 'message' => 'No emails were sent ' ], 200));
 		}
+
+        $reg->setEmailSent(true);
+        $manager->persist($reg);
+        $manager->flush($reg);
 	}
 	
 }
